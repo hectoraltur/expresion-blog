@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Cofre del Movimiento — Blog Educativo de Expresión Corporal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-oscuro: #2d5a27;
+    --verde-medio: #4a7c3f;
+    --verde-claro: #7ab648;
+    --beige: #f5f0e8;
+    --beige-oscuro: #e8dfc8;
+    --marron: #6b4423;
+    --marron-claro: #a06b3c;
+    --dorado: #c9a227;
+    --dorado-claro: #e8c85a;
+    --crema: #faf7f0;
+    --texto-oscuro: #2c1810;
+    --texto-medio: #4a3728;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:var(--crema); color:var(--texto-oscuro); overflow-x:hidden; }
+
+  nav {
+    position:sticky; top:0; z-index:100;
+    background:rgba(45,90,39,0.97); backdrop-filter:blur(8px);
+    padding:10px 24px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+    border-bottom:2px solid var(--dorado);
+  }
+  .logo { font-family:'Playfair Display',serif; color:var(--dorado-claro); font-size:17px; font-weight:700; margin-right:10px; white-space:nowrap; }
+  nav button {
+    background:transparent; border:1px solid rgba(233,200,90,0.4); color:#e8f5e1;
+    padding:5px 12px; border-radius:20px; cursor:pointer;
+    font-family:'Nunito',sans-serif; font-size:11px; font-weight:600; transition:all 0.2s;
+  }
+  nav button:hover, nav button.active { background:var(--dorado); color:var(--verde-oscuro); border-color:var(--dorado); }
+
+  .section { display:none; }
+  .section.active { display:block; }
+
+  .hero {
+    min-height:100vh;
+    background:linear-gradient(160deg,#0e2a0c 0%,#1a3d15 30%,#2d5a27 60%,#4a7c3f 100%);
+    position:relative; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:80px 40px 40px; text-align:center;
+  }
+  .forest-svg { position:absolute; bottom:0; left:0; right:0; width:100%; pointer-events:none; }
+  .hero-content { position:relative; z-index:2; max-width:820px; }
+  .autores-badge {
+    display:inline-block; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25);
+    color:#d4edc8; padding:9px 24px; border-radius:30px;
+    font-size:12px; font-weight:600; margin-bottom:14px; line-height:1.7;
+  }
+  .badge-decreto {
+    display:inline-block; background:rgba(201,162,39,0.18); border:1px solid var(--dorado);
+    color:var(--dorado-claro); padding:6px 20px; border-radius:30px;
+    font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:22px;
+  }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(42px,8vw,78px); color:#fff; line-height:1.05; margin-bottom:10px; }
+  .hero h1 span { color:var(--dorado-claro); }
+  .hero-sub { font-size:clamp(14px,2.5vw,19px); color:#c8e8c0; margin-bottom:28px; line-height:1.5; }
+  .cofre-intro {
+    background:rgba(255,255,255,0.07); border:1px solid rgba(233,200,90,0.3);
+    border-radius:20px; padding:24px 32px; margin-bottom:30px;
+  }
+  .cofre-intro p { color:#e8f5e1; line-height:1.7; font-size:15px; }
+  .cofre-intro strong { color:var(--dorado-claro); }
+  .sesiones-dots { display:flex; justify-content:center; gap:10px; margin:16px 0 28px; flex-wrap:wrap; }
+  .dot { width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid rgba(233,200,90,0.4); display:flex; align-items:center; justify-content:center; color:var(--dorado-claro); font-weight:700; font-size:14px; }
+  .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-p { background:var(--dorado); color:var(--verde-oscuro); border:none; padding:13px 28px; border-radius:30px; font-size:14px; font-weight:800; cursor:pointer; font-family:'Nunito',sans-serif; transition:all 0.2s; }
+  .btn-p:hover { background:var(--dorado-claro); transform:translateY(-2px); }
+  .btn-s { background:transparent; color:#e8f5e1; border:2px solid rgba(255,255,255,0.35); padding:13px 28px; border-radius:30px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Nunito',sans-serif; transition:all 0.2s; }
+  .btn-s:hover { border-color:#fff; }
+
+  .page-content { max-width:940px; margin:0 auto; padding:60px 32px; }
+  .sec-label { display:inline-block; background:var(--verde-claro); color:white; padding:4px 16px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; }
+  h2.page-title { font-family:'Playfair Display',serif; font-size:clamp(26px,5vw,44px); color:var(--verde-oscuro); margin-bottom:16px; line-height:1.2; }
+  .intro-text { font-size:16px; color:var(--texto-medio); line-height:1.7; max-width:720px; }
+  .divider { width:60px; height:3px; background:var(--dorado); border-radius:2px; margin:22px 0; }
+
+  .dev-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:18px; margin:28px 0; }
+  .dev-card { background:white; border-radius:16px; padding:22px 18px; text-align:center; border:1.5px solid var(--beige-oscuro); transition:transform 0.2s; }
+  .dev-card:hover { transform:translateY(-4px); }
+  .dev-icon { width:52px; height:52px; border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+  .dev-card h3 { font-size:14px; font-weight:700; color:var(--verde-oscuro); margin-bottom:7px; }
+  .dev-card p { font-size:13px; color:var(--texto-medio); line-height:1.5; }
+
+  .pers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; margin-top:36px; }
+  .pers-card { border-radius:20px; overflow:hidden; border:1.5px solid var(--beige-oscuro); background:white; transition:transform 0.2s,box-shadow 0.2s; }
+  .pers-card:hover { transform:translateY(-5px); box-shadow:0 12px 32px rgba(45,90,39,0.12); }
+  .pers-header { padding:26px 22px 18px; text-align:center; }
+  .pers-avatar { width:76px; height:76px; border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:34px; border:3px solid white; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+  .pers-nombre { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; margin-bottom:3px; }
+  .pers-rol { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; opacity:0.75; }
+  .pers-body { padding:14px 18px 18px; background:var(--crema); }
+  .pers-body p { font-size:13px; color:var(--texto-medio); line-height:1.6; margin-bottom:7px; }
+  .pers-tag { display:inline-block; padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; background:var(--beige-oscuro); color:var(--marron); }
+
+  .teoria-dark { background:var(--verde-oscuro); color:white; border-radius:20px; padding:32px; margin:28px 0; }
+  .teoria-dark h3 { font-family:'Playfair Display',serif; font-size:21px; color:var(--dorado-claro); margin-bottom:14px; }
+  .teoria-dark p { line-height:1.7; color:#d4edc8; font-size:15px; margin-bottom:10px; }
+  .teoria-dark p:last-child { margin-bottom:0; }
+  .princ-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin:24px 0; }
+  .princ-item { background:white; border:1.5px solid var(--beige-oscuro); border-radius:14px; padding:18px; border-left:4px solid var(--verde-claro); }
+  .princ-item h4 { font-size:14px; font-weight:700; color:var(--verde-oscuro); margin-bottom:7px; }
+  .princ-item p { font-size:13px; color:var(--texto-medio); line-height:1.5; }
+
+  .gauss-wrap { background:white; border:1.5px solid var(--beige-oscuro); border-radius:16px; padding:28px; margin:28px 0; text-align:center; }
+  .gauss-wrap h3 { font-family:'Playfair Display',serif; font-size:20px; color:var(--verde-oscuro); margin-bottom:6px; }
+  .gauss-wrap p.sub { font-size:13px; color:var(--texto-medio); margin-bottom:20px; }
+
+  .autor-cite { background:var(--beige); border-left:4px solid var(--dorado); border-radius:0 12px 12px 0; padding:16px 20px; margin:14px 0; }
+  .autor-cite strong { color:var(--verde-oscuro); font-size:14px; display:block; margin-bottom:5px; }
+  .autor-cite p { font-size:13px; color:var(--texto-medio); line-height:1.6; }
+
+  .autores-box { background:white; border:2px solid var(--dorado); border-radius:16px; padding:20px 28px; margin:28px 0; text-align:center; }
+  .autores-box h3 { font-family:'Playfair Display',serif; font-size:15px; color:var(--verde-oscuro); margin-bottom:6px; }
+  .autores-box p { font-size:13px; color:var(--texto-medio); line-height:1.7; }
+
+  .ses-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; }
+  .ses-btn { background:white; border:1.5px solid var(--beige-oscuro); color:var(--texto-medio); padding:7px 16px; border-radius:20px; cursor:pointer; font-family:'Nunito',sans-serif; font-size:12px; font-weight:700; transition:all 0.2s; }
+  .ses-btn:hover,.ses-btn.active { background:var(--verde-oscuro); color:white; border-color:var(--verde-oscuro); }
+  .ses-content { display:none; }
+  .ses-content.active { display:block; }
+
+  .ses-header { background:var(--verde-oscuro); border-radius:20px 20px 0 0; padding:32px; color:white; position:relative; overflow:hidden; }
+  .ses-header::before { content:''; position:absolute; top:-30px; right:-30px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.04); }
+  .ses-num { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--dorado-claro); margin-bottom:7px; }
+  .ses-header h3 { font-family:'Playfair Display',serif; font-size:24px; margin-bottom:14px; }
+  .ses-obj { background:rgba(255,255,255,0.1); border-left:3px solid var(--dorado); padding:11px 15px; border-radius:0 10px 10px 0; font-size:13px; color:#d4edc8; line-height:1.5; margin-bottom:12px; }
+  .ses-obj strong { color:var(--dorado-claro); }
+  .ses-personaje { display:flex; align-items:flex-start; gap:14px; background:rgba(255,255,255,0.08); border:1px solid rgba(233,200,90,0.25); border-radius:12px; padding:12px 16px; margin-top:4px; }
+  .ses-personaje .ico { font-size:26px; flex-shrink:0; margin-top:2px; }
+  .ses-personaje p { font-size:13px; color:#d4edc8; line-height:1.5; }
+  .ses-personaje strong { color:var(--dorado-claro); }
+
+  .ses-body { background:white; border:1.5px solid var(--beige-oscuro); border-top:none; border-radius:0 0 20px 20px; overflow:hidden; }
+  .fase { padding:26px 30px; border-bottom:1px solid var(--beige-oscuro); }
+  .fase:last-child { border-bottom:none; }
+  .fase-lbl { display:flex; align-items:center; gap:11px; margin-bottom:14px; }
+  .fase-icon { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+  .ic-cal { background:#fff3cd; } .ic-pri { background:#d4edda; } .ic-calm { background:#cce5ff; } .ic-obs { background:#f5e6d3; }
+  .fase h4 { font-size:15px; font-weight:800; color:var(--verde-oscuro); }
+  .fase h4 span { font-size:12px; font-weight:600; color:var(--texto-medio); display:block; margin-top:2px; }
+  .juego { background:var(--crema); border-radius:12px; padding:16px 18px; margin:10px 0; border-left:3px solid var(--verde-claro); }
+  .juego h5 { font-size:13px; font-weight:700; color:var(--verde-oscuro); margin-bottom:7px; }
+  .juego p { font-size:13px; color:var(--texto-medio); line-height:1.65; margin-bottom:5px; }
+  .juego p:last-child { margin-bottom:0; }
+  .nota { font-size:12px; color:var(--marron-claro); font-style:italic; }
+  .letra-cancion { background:rgba(201,162,39,0.1); border:1px solid rgba(201,162,39,0.3); border-radius:10px; padding:12px 16px; margin:8px 0; font-style:italic; font-size:13px; color:var(--marron); line-height:1.9; }
+
+  .obs-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:14px; }
+  @media(max-width:600px){ .obs-grid { grid-template-columns:1fr; } }
+  .obs-box { background:var(--crema); border:1.5px solid var(--beige-oscuro); border-radius:14px; padding:18px; }
+  .obs-box h5 { font-size:12px; font-weight:700; color:var(--verde-oscuro); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.8px; border-bottom:1px solid var(--beige-oscuro); padding-bottom:7px; }
+  .obs-box p { font-size:13px; color:var(--texto-medio); line-height:1.65; }
+
+  .reflex-hero { background:linear-gradient(135deg,#1a3d15,#2d5a27,#3d7a30); border-radius:24px; padding:56px 44px; text-align:center; margin-bottom:36px; position:relative; overflow:hidden; }
+  .reflex-hero h2 { font-family:'Playfair Display',serif; font-size:34px; color:white; margin-bottom:14px; }
+  .reflex-hero p { color:#c8e8c0; font-size:15px; line-height:1.7; max-width:580px; margin:0 auto 26px; }
+  .cofre-anim { font-size:72px; margin:14px 0; display:inline-block; animation:float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .apren-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(195px,1fr)); gap:18px; margin:36px 0; }
+  .apren-card { background:white; border-radius:16px; padding:22px; border:1.5px solid var(--beige-oscuro); text-align:center; }
+  .apren-card .num { font-size:34px; display:block; margin-bottom:7px; }
+  .apren-card h4 { font-size:14px; font-weight:700; color:var(--verde-oscuro); margin-bottom:7px; }
+  .apren-card p { font-size:13px; color:var(--texto-medio); line-height:1.5; }
+  .preg-list { background:var(--beige); border-radius:16px; padding:28px; margin:28px 0; }
+  .preg-list h3 { font-family:'Playfair Display',serif; font-size:21px; color:var(--verde-oscuro); margin-bottom:18px; }
+  .preg-item { display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--beige-oscuro); }
+  .preg-item:last-child { border-bottom:none; }
+  .preg-num { width:30px; height:30px; background:var(--verde-oscuro); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex-shrink:0; }
+  .preg-item p { font-size:14px; color:var(--texto-medio); line-height:1.5; padding-top:3px; }
+
+  footer { background:var(--verde-oscuro); padding:28px; text-align:center; color:#c8e8c0; font-size:13px; }
+  footer strong { color:var(--dorado-claro); }
+
+  @media(max-width:640px){
+    .page-content{padding:36px 18px;}
+    .ses-header{padding:22px 18px;}
+    .fase{padding:18px;}
+    .reflex-hero{padding:36px 20px;}
+    .cofre-intro{padding:18px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🌿 El Cofre del Movimiento</div>
+  <button class="active" onclick="show('inicio')">Inicio</button>
+  <button onclick="show('historia')">Personajes</button>
+  <button onclick="show('teoria')">Marco Teórico</button>
+  <button onclick="show('sesiones')">Sesiones</button>
+  <button onclick="show('reflexion')">Reflexión Final</button>
+</nav>
+
+<!-- ══ INICIO ══ -->
+<div class="section active" id="sec-inicio">
+  <div class="hero">
+    <svg class="forest-svg" viewBox="0 0 1440 340" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+      <g opacity="0.22"><polygon points="0,340 70,100 140,340" fill="#5a8a4a"/><polygon points="90,340 170,55 250,340" fill="#4a7c3f"/><polygon points="200,340 270,130 340,340" fill="#5a8a4a"/><polygon points="1100,340 1170,80 1240,340" fill="#4a7c3f"/><polygon points="1250,340 1320,120 1390,340" fill="#5a8a4a"/><polygon points="1360,340 1410,70 1460,340" fill="#4a7c3f"/></g>
+      <g opacity="0.42"><polygon points="300,340 380,180 460,340" fill="#3d7a30"/><polygon points="420,340 510,130 600,340" fill="#4a7c3f"/><polygon points="850,340 930,155 1010,340" fill="#3d7a30"/><polygon points="980,340 1060,125 1140,340" fill="#4a7c3f"/></g>
+      <g opacity="0.58"><ellipse cx="100" cy="336" rx="90" ry="26" fill="#2d5a27"/><ellipse cx="350" cy="338" rx="110" ry="20" fill="#3d7a30"/><ellipse cx="720" cy="338" rx="130" ry="18" fill="#2d5a27"/><ellipse cx="1150" cy="337" rx="100" ry="22" fill="#3d7a30"/><ellipse cx="1400" cy="338" rx="80" ry="20" fill="#2d5a27"/></g>
+      <circle cx="450" cy="100" r="2.5" fill="#e8c85a" opacity="0.9"/><circle cx="730" cy="60" r="3" fill="#e8c85a" opacity="0.7"/><circle cx="1050" cy="90" r="2" fill="#e8c85a" opacity="0.8"/>
+    </svg>
+    <div class="hero-content">
+      <div class="autores-badge">
+        Trabajo realizado por: <strong>Judit Sales Pérez</strong> y <strong>Héctor Altur López</strong><br>
+        1.º Educación Infantil A · Promoción 2025–2026 · UCV
+      </div>
+      <div class="badge-decreto">Decreto 100/2022 · Educación Infantil 3–6 años</div>
+      <h1>El <span>Cofre del</span><br>Movimiento</h1>
+      <p class="hero-sub">Blog educativo de expresión corporal<br>para descubrir el lenguaje del cuerpo</p>
+      <div class="cofre-intro">
+        <p>En el corazón de un <strong>bosque mágico</strong>, existe un antiguo cofre lleno de tesoros: risas, abrazos, saltos, canciones y emociones. El cofre solo se puede abrir si el grupo trabaja junto, sesión a sesión, descubriendo el poder que tiene <strong>moverse, expresarse y comunicarse con el cuerpo</strong>. ¿Estáis preparados para la aventura?</p>
+      </div>
+      <p style="color:var(--dorado-claro);font-weight:700;font-size:13px;margin-bottom:12px">8 SESIONES · 7 PERSONAJES · 1 COFRE</p>
+      <div class="sesiones-dots">
+        <div class="dot">1</div><div class="dot">2</div><div class="dot">3</div><div class="dot">4</div><div class="dot">5</div><div class="dot">6</div><div class="dot">7</div>
+        <div class="dot" style="background:rgba(201,162,39,0.3);border-color:var(--dorado);font-size:11px">MU</div>
+      </div>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="show('sesiones')">Explorar las Sesiones</button>
+        <button class="btn-s" onclick="show('historia')">Conocer los Personajes</button>
+      </div>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="sec-label">Expresión Corporal</div>
+    <h2 class="page-title">El cuerpo como primer<br>lenguaje del niño</h2>
+    <p class="intro-text">La expresión corporal es mucho más que movimiento: es la forma en que niñas y niños comunican quiénes son, qué sienten y cómo ven el mundo. En Educación Infantil, el cuerpo es el primer instrumento de aprendizaje, de relación y de creación.</p>
+    <div class="divider"></div>
+    <div class="dev-grid">
+      <div class="dev-card"><div class="dev-icon" style="background:#d4edda">🌱</div><h3>Desarrollo Físico</h3><p>Control corporal, coordinación, esquema corporal y conciencia del movimiento en el espacio.</p></div>
+      <div class="dev-card"><div class="dev-icon" style="background:#ffe0cc">🌞</div><h3>Desarrollo Emocional</h3><p>Reconocimiento, expresión y regulación de las propias emociones a través del gesto y el juego.</p></div>
+      <div class="dev-card"><div class="dev-icon" style="background:#cce5ff">🌊</div><h3>Desarrollo Social</h3><p>Cohesión grupal, cooperación, respeto y construcción de vínculos mediante actividades compartidas.</p></div>
+      <div class="dev-card"><div class="dev-icon" style="background:#fff3cd">⭐</div><h3>Desarrollo Artístico</h3><p>Creatividad, improvisación, drama y exploración de posibilidades expresivas del propio cuerpo.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PERSONAJES ══ -->
+<div class="section" id="sec-historia">
+  <div class="page-content">
+    <div class="sec-label">La Historia del Bosque</div>
+    <h2 class="page-title">Los 7 Guardianes<br>del Cofre</h2>
+    <p class="intro-text">Hace mucho tiempo, en un bosque lleno de luz dorada, vivían siete seres mágicos que protegían el Gran Cofre del Movimiento. Cada uno guardaba un poder especial vinculado a los contenidos curriculares del Decreto 100/2022.</p>
+    <div class="divider"></div>
+    <div class="pers-grid">
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#d4edda,#a8ddb5)"><div class="pers-avatar" style="background:#4a7c3f">🌿</div><div class="pers-nombre" style="color:#2d5a27">Mirlo</div><div class="pers-rol" style="color:#4a7c3f">El que conoce el cuerpo</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Curioso y atento, siempre observando cómo se mueven los demás.</p><p><strong>Enseña:</strong> A reconocer las partes del cuerpo, la lateralidad y el esquema corporal.</p><p><strong>En sesiones:</strong> Guía los juegos de calentamiento con movimientos de conciencia corporal.</p><div class="pers-tag">Conocimiento del cuerpo</div></div></div>
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#ffe0cc,#ffb085)"><div class="pers-avatar" style="background:#d85a30">🌸</div><div class="pers-nombre" style="color:#6b2810">Lúa</div><div class="pers-rol" style="color:#993c1d">La que siente todo</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Sensible y expresiva, siempre conectada con lo que siente por dentro.</p><p><strong>Enseña:</strong> A nombrar y expresar emociones a través del gesto, la voz y el movimiento.</p><p><strong>En sesiones:</strong> Acompaña los juegos de mímica, espejo y confesiones de la vuelta a la calma.</p><div class="pers-tag">Desarrollo emocional</div></div></div>
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#cce5ff,#80bcff)"><div class="pers-avatar" style="background:#185fa5">💧</div><div class="pers-nombre" style="color:#042c53">Voix</div><div class="pers-rol" style="color:#0c447c">El mensajero</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Hablador, gesticulador, lleno de historias que contar sin palabras.</p><p><strong>Enseña:</strong> Comunicación no verbal, lenguaje gestual y corporal como forma de expresión.</p><p><strong>En sesiones:</strong> Protagoniza el teléfono loco mímico y los museos de mímica.</p><div class="pers-tag">Comunicación</div></div></div>
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#fff3cd,#ffe066)"><div class="pers-avatar" style="background:#c9a227">⚡</div><div class="pers-nombre" style="color:#412402">Salto</div><div class="pers-rol" style="color:#633806">El que domina el espacio</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Enérgico, ágil, siempre en movimiento, explorando rincones y velocidades.</p><p><strong>Enseña:</strong> Control corporal, ritmo, ocupación del espacio y motricidad gruesa.</p><p><strong>En sesiones:</strong> Guía los juegos de conga, coches con aros y circuitos de movimiento.</p><div class="pers-tag">Movimiento y control</div></div></div>
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#e8d5f0,#c890e8)"><div class="pers-avatar" style="background:#7f77dd">🌺</div><div class="pers-nombre" style="color:#26215c">Nudo</div><div class="pers-rol" style="color:#533ab7">El tejedor de lazos</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Afectuoso, siempre buscando conectar, crear equipos y compartir.</p><p><strong>Enseña:</strong> Cooperación, cohesión grupal, respeto y trabajo en equipo.</p><p><strong>En sesiones:</strong> Protagoniza los juegos de nudos humanos, colas y agrupaciones.</p><div class="pers-tag">Relaciones sociales</div></div></div>
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#fce4ec,#f48fb1)"><div class="pers-avatar" style="background:#d4537e">🎨</div><div class="pers-nombre" style="color:#4b1528">Chispa</div><div class="pers-rol" style="color:#993556">La creadora</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Imaginativa, atrevida, siempre con ideas nuevas e inesperadas.</p><p><strong>Enseña:</strong> Creatividad, improvisación, dramatización y expresión artística libre.</p><p><strong>En sesiones:</strong> Guía los sketches teatrales, los gnomos y los cuentos colectivos.</p><div class="pers-tag">Creatividad artística</div></div></div>
+      <div class="pers-card"><div class="pers-header" style="background:linear-gradient(135deg,#e0f2e9,#80cfa0)"><div class="pers-avatar" style="background:#0f6e56">🍃</div><div class="pers-nombre" style="color:#04342c">Raíz</div><div class="pers-rol" style="color:#085041">La exploradora</div></div><div class="pers-body"><p><strong>Personalidad:</strong> Aventurera y observadora, siempre descubriendo el entorno que la rodea.</p><p><strong>Enseña:</strong> Exploración del espacio, los elementos naturales y el entorno próximo.</p><p><strong>En sesiones:</strong> Protagoniza fuego/tierra/mar/aire y la rítmica de Dalcroze.</p><div class="pers-tag">Exploración del entorno</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MARCO TEÓRICO ══ -->
+<div class="section" id="sec-teoria">
+  <div class="page-content">
+    <div class="sec-label">Marco Teórico</div>
+    <h2 class="page-title">La expresión corporal<br>en Educación Infantil</h2>
+    <p class="intro-text">Entender el cuerpo como instrumento de aprendizaje es la base de una pedagogía viva, significativa y conectada con quienes son nuestros alumnos y alumnas.</p>
+    <div class="divider"></div>
+
+    <div class="teoria-dark">
+      <h3>¿Qué es la expresión corporal?</h3>
+      <p>La expresión corporal es el uso consciente e intencionado del cuerpo —sus movimientos, gestos, posturas y acciones— como medio de comunicación, creación y relación. En la etapa de 3 a 6 años, el cuerpo es el primer soporte del aprendizaje: antes de que el niño domine el lenguaje oral o escrito, ya se expresa, ya siente y ya se relaciona a través de lo que hace su cuerpo.</p>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--verde-oscuro);margin:28px 0 16px">Relación con las áreas del Decreto 100/2022</h3>
+    <div class="princ-grid">
+      <div class="princ-item"><h4>Crecimiento en armonía</h4><p>El cuerpo como núcleo del aprendizaje. Conciencia corporal, salud, bienestar físico y emocional. El movimiento como fuente de placer y autoconocimiento.</p></div>
+      <div class="princ-item"><h4>Comunicación y representación</h4><p>El cuerpo como lenguaje. Expresión no verbal, dramática y artística. El gesto como forma de narrar, crear y construir significados compartidos.</p></div>
+      <div class="princ-item"><h4>Aprendizaje a través del juego</h4><p>El juego es el motor del desarrollo en la infancia. Cada sesión parte de experiencias lúdicas que integran emoción, movimiento y relación.</p></div>
+      <div class="princ-item"><h4>Bienestar y relaciones</h4><p>Un clima de aula seguro y afectuoso donde cada niño se siente aceptado, capaz de expresarse y valorado por su grupo.</p></div>
+    </div>
+
+    <!-- CAMPANA DE GAUSS -->
+    <div class="gauss-wrap">
+      <h3>La Campana de Gauss aplicada a la sesión de Expresión Corporal</h3>
+      <p class="sub">Evolución de la intensidad: calentamiento · parte principal · vuelta a la calma</p>
+      <svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+        <line x1="60" y1="245" x2="660" y2="245" stroke="#4a3728" stroke-width="1.5"/>
+        <line x1="60" y1="42" x2="60" y2="245" stroke="#4a3728" stroke-width="1.5"/>
+        <text x="12" y="148" font-family="Nunito,sans-serif" font-size="11" fill="#4a3728" transform="rotate(-90,12,148)">Intensidad</text>
+        <text x="360" y="272" font-family="Nunito,sans-serif" font-size="11" fill="#4a3728" text-anchor="middle">Tiempo de la sesión →</text>
+        <!-- Curva -->
+        <path d="M80,235 C120,232 160,205 200,162 C240,112 275,62 350,52 C425,62 460,112 500,162 C540,205 580,232 620,235" fill="none" stroke="#2d5a27" stroke-width="2.5"/>
+        <!-- Zonas coloreadas -->
+        <path d="M80,235 C120,232 160,205 200,162 L200,245 L80,245 Z" fill="rgba(255,193,7,0.18)"/>
+        <path d="M200,162 C240,112 275,62 350,52 C425,62 460,112 500,162 L500,245 L200,245 Z" fill="rgba(45,90,39,0.15)"/>
+        <path d="M500,162 C540,205 580,232 620,235 L620,245 L500,245 Z" fill="rgba(23,162,184,0.15)"/>
+        <!-- Líneas divisorias -->
+        <line x1="200" y1="245" x2="200" y2="162" stroke="#c9a227" stroke-width="1" stroke-dasharray="5,4"/>
+        <line x1="500" y1="245" x2="500" y2="162" stroke="#c9a227" stroke-width="1" stroke-dasharray="5,4"/>
+        <!-- Etiquetas zonas -->
+        <rect x="82" y="195" width="108" height="28" rx="7" fill="rgba(255,193,7,0.28)"/>
+        <text x="136" y="213" font-family="Nunito,sans-serif" font-size="12" font-weight="700" fill="#6b3d00" text-anchor="middle">Calentamiento</text>
+        <rect x="245" y="72" width="110" height="28" rx="7" fill="rgba(45,90,39,0.22)"/>
+        <text x="300" y="90" font-family="Nunito,sans-serif" font-size="12" font-weight="700" fill="#1a3d15" text-anchor="middle">Parte Principal</text>
+        <rect x="502" y="195" width="114" height="28" rx="7" fill="rgba(23,162,184,0.22)"/>
+        <text x="559" y="213" font-family="Nunito,sans-serif" font-size="12" font-weight="700" fill="#0c4a52" text-anchor="middle">Vuelta a la Calma</text>
+        <!-- Descripciones -->
+        <text x="136" y="258" font-family="Nunito,sans-serif" font-size="10" fill="#7a5500" text-anchor="middle">Activa el cuerpo</text>
+        <text x="300" y="258" font-family="Nunito,sans-serif" font-size="10" fill="#2d5a27" text-anchor="middle">Máxima expresión</text>
+        <text x="559" y="258" font-family="Nunito,sans-serif" font-size="10" fill="#0c4a52" text-anchor="middle">Regula y relaja</text>
+      </svg>
+      <p style="font-size:13px;color:var(--texto-medio);margin-top:16px;line-height:1.65;text-align:left">La <strong>Campana de Gauss</strong> describe la evolución de la intensidad a lo largo de una sesión de Expresión Corporal. El <strong>calentamiento</strong> eleva progresivamente la activación fisiológica y emocional; la <strong>parte principal</strong> representa el pico de máxima expresión, creatividad y demanda motriz; y la <strong>vuelta a la calma</strong> desciende suavemente hacia la relajación, el bienestar y el cierre reflexivo. Esta estructura garantiza la seguridad del alumnado y la eficacia pedagógica de cada sesión.</p>
+    </div>
+
+    <!-- AUTORES CITADOS -->
+    <h3 style="font-family:'Playfair Display',serif;font-size:21px;color:var(--verde-oscuro);margin:32px 0 18px">Autores citados</h3>
+
+    <div class="autor-cite">
+      <strong>Émile Jaques-Dalcroze (1865–1950) — Rítmica de Dalcroze</strong>
+      <p>Pedagogo y compositor suizo, Dalcroze desarrolló un método pedagógico basado en la idea de que el movimiento corporal es la base del aprendizaje musical y rítmico. En su método, denominado <em>Euritimia</em> o <em>Rítmica</em>, el cuerpo entero se convierte en el principal instrumento de expresión: el espacio, el tiempo y la energía son los tres parámetros que el alumno aprende a habitar corporalmente. Dalcroze afirmaba que "el cuerpo es el intermediario entre el sonido y el pensamiento". En nuestras sesiones de ocupación del espacio este principio está muy presente: <em>el espacio que hay es el que tienen, y han de habitarlo con todo su ser</em> — grande, pequeño, lento, rápido.</p>
+    </div>
+
+    <div class="autor-cite">
+      <strong>Rudolf von Laban (1879–1958) — Análisis del Movimiento</strong>
+      <p>Coreógrafo y teórico del movimiento húngaro, Laban desarrolló un sistema para describir, visualizar y registrar el movimiento humano conocido como <em>Laban Movement Analysis (LMA)</em>. Su marco conceptual organiza el movimiento en cuatro categorías: Cuerpo (qué se mueve), Espacio (dónde se mueve), Esfuerzo (cómo se mueve) y Forma (cómo el cuerpo se moldea). Sus ideas están presentes en los juegos de exploración espacial, los planos de movimiento y la conciencia corporal de las sesiones.</p>
+    </div>
+
+    <div class="autor-cite">
+      <strong>Jean Piaget (1896–1980) — Estadios del Desarrollo Cognitivo</strong>
+      <p>Psicólogo suizo cuya teoría sitúa la etapa de Educación Infantil (3–6 años) en el <em>período preoperacional</em>, caracterizado por el pensamiento simbólico, el juego de representación y la comprensión del entorno a través de la acción. Las sesiones de expresión corporal respetan y estimulan estas características: el juego simbólico (la vaca flaca, los animales) y el juego dramático (sketches, gnomos) son el vehículo principal del aprendizaje.</p>
+    </div>
+
+    <div class="autor-cite">
+      <strong>Lev Vygotski (1896–1934) — Zona de Desarrollo Próximo</strong>
+      <p>Psicólogo ruso que introdujo el concepto de <em>Zona de Desarrollo Próximo (ZDP)</em>: la distancia entre lo que el niño puede hacer solo y lo que puede lograr con apoyo de un adulto o par más competente. El diseño en pequeños grupos heterogéneos, la metodología sumativa y la escalada progresiva de dificultad en las danzas y juegos de improvisación responde directamente a este principio.</p>
+    </div>
+
+    <div style="background:var(--beige);border-radius:20px;padding:28px;margin:28px 0">
+      <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--verde-oscuro);margin-bottom:14px">Juego, experimentación y aprendizaje significativo</h3>
+      <p style="font-size:14px;color:var(--texto-medio);line-height:1.7;margin-bottom:10px"><strong style="color:var(--verde-oscuro)">Juego:</strong> Es el lenguaje natural de la infancia. A través del juego simbólico, dramático y cooperativo el niño aprende sin percibir que aprende. El docente diseña experiencias jugadas con intención pedagógica clara.</p>
+      <p style="font-size:14px;color:var(--texto-medio);line-height:1.7;margin-bottom:10px"><strong style="color:var(--verde-oscuro)">Experimentación:</strong> El cuerpo necesita probar, equivocarse y repetir. Las actividades permiten múltiples formas de participación, fomentando la autonomía y la autoconfianza.</p>
+      <p style="font-size:14px;color:var(--texto-medio);line-height:1.7"><strong style="color:var(--verde-oscuro)">Aprendizaje significativo:</strong> Cada sesión conecta con las vivencias del niño, su entorno próximo y sus emociones reales. La narrativa del cofre da sentido a cada actividad como parte de un viaje compartido.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SESIONES ══ -->
+<div class="section" id="sec-sesiones">
+  <div class="page-content">
+    <div class="sec-label">Las 7 Sesiones</div>
+    <h2 class="page-title">El sendero hacia<br>el Cofre</h2>
+    <p class="intro-text">Cada sesión es un paso más en el camino. Con cada actividad, el grupo gana una llave que acerca al Gran Cofre del Movimiento.</p>
+    <div class="divider"></div>
+    <div class="ses-nav">
+      <button class="ses-btn active" onclick="showSes(1)">Sesión 1</button>
+      <button class="ses-btn" onclick="showSes(2)">Sesión 2</button>
+      <button class="ses-btn" onclick="showSes(3)">Sesión 3</button>
+      <button class="ses-btn" onclick="showSes(4)">Sesión 4</button>
+      <button class="ses-btn" onclick="showSes(5)">Sesión 5</button>
+      <button class="ses-btn" onclick="showSes(6)">Sesión 6</button>
+      <button class="ses-btn" onclick="showSes(7)">Sesión 7</button>
+      <button class="ses-btn" onclick="showSes(8)" style="background:linear-gradient(135deg,#c9a227,#e8c85a);color:#2d5a27;border-color:var(--dorado)">✨ Mash Up</button>
+    </div>
+
+    <!-- ══ S1 ══ -->
+    <div class="ses-content active" id="ses-1">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 1 · Cohesión Grupal</div>
+        <h3>La Fiesta del Bosque — Cohesión y Primer Encuentro</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Favorecer la cohesión grupal y el conocimiento mutuo a través del juego cooperativo, la danza y la expresión corporal colectiva. (Decreto 100/2022: Crecimiento en armonía / Comunicación y representación)</div>
+        <div class="ses-personaje">
+          <div class="ico">🌺</div>
+          <p><strong>Guardián: Nudo</strong> — El tejedor de lazos. Nudo nos recuerda que el grupo es más fuerte cuando todos se mueven juntos. Trabaja los contenidos curriculares de <strong>relaciones sociales y convivencia</strong>: cohesión, cooperación y construcción de vínculos a través del juego. También acompaña <strong>Salto</strong> (movimiento y control corporal en la conga y el baile).</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento<span>Movilidad articular · canción · baile</span></h4></div>
+          <div class="juego">
+            <h5>1.er juego — Simón Dice (a cargo de Yaiza)</h5>
+            <p>La actividad consistía en hacer movilidad articular para entrar en calor. Se le podría meter cohesión grupal diciendo "Simón dice abraza a…" ahí se pueden hacer los grupos para la siguiente tarea.</p>
+          </div>
+          <div class="juego">
+            <h5>2.º juego — Canto de la Vaca Flaca</h5>
+            <div class="letra-cancion">
+              "Jo tinc una vaca flaca,<br>
+              Que menja molt i no fa caca (x3)<br>
+              Que li passa a la vaca flaca?<br>
+              Que ja sa mort i no fa caca"
+            </div>
+            <p>Se le puede añadir ritmos y emociones para hacerla mejor. En este tipo de juegos es de repetición, el grado de motivación ha de ser muy importante. La intensidad del profe será la que marque a la del grupo.</p>
+          </div>
+          <div class="juego">
+            <h5>3.er juego — Baile por grupos pequeños</h5>
+            <p>Había que poner música y bailar de otra forma a lo que transmite la canción. Es buen juego para introducir al siguiente.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal<span>La Conga · Los Churros</span></h4></div>
+          <div class="juego">
+            <h5>1.er juego — La Conga</h5>
+            <p>En este juego se ponía música y teníamos que seguir el ritmo. El grupo tenía que autodirigirse en el ritmo. Se puede dirigir por el profe también para que el ritmo siga en la conga. Ha de estar todo antes preparado, imágenes, material, canciones, etc.</p>
+          </div>
+          <div class="juego">
+            <h5>2.º juego — Los Churros</h5>
+            <p>Se pilla con churros. Se habla de la diferencia entre el juego simbólico vs el dramático.</p>
+            <p>Hemos hablado de juego infinito y cómo poder marcarlo y darle fin. A través del juego podemos ver a nivel psicosocial la relación dentro de clase.</p>
+            <p>Hay dos tipos de forma de jugarlo, con objetos que remarquen quién pilla y quién no.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma<span>Los animales por grupos</span></h4></div>
+          <div class="juego">
+            <h5>1.er juego — Los Animales por Grupos</h5>
+            <p>Nos hemos separado por animales. Había que interactuar el animal con el que nos había tocado. Es bueno para formar grupos.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>Esta actividad cumple con muchos de los objetivos que se explicaron a principio de la asignatura, como poder llegar a la cima de la ola. La actividad de la vaca flaca es muy interesante para niños pequeños: una forma divertida de cantar y hacer movimientos. Destaco la vuelta a la calma, ya que nos hizo formar los grupos para las siguientes sesiones.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>Esta sesión trabajaba la cohesión del grupo mediante la representación de animales, lo que ayudaba a la expresión corporal y a la coordinación. En mi caso representé a los peces, lo que me obligó a moverme de forma más fluida y adaptarme al grupo. Me pareció una actividad divertida y adecuada para infantil, aunque al principio hubo un poco de confusión con las consignas, lo que hizo que algunos momentos no fueran tan fluidos como deberían.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S2 ══ -->
+    <div class="ses-content" id="ses-2">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 2 · Exposición por Grupos</div>
+        <h3>Los Animales del Bosque — Exposiciones de Cohesión</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Consolidar la cohesión grupal mediante la presentación de juegos cooperativos diseñados por cada subgrupo de animales. (Decreto 100/2022: Crecimiento en armonía / Comunicación y representación)</div>
+        <div class="ses-personaje">
+          <div class="ico">🌺</div>
+          <p><strong>Guardianes: Nudo y Salto</strong> — Nudo trabaja las <strong>relaciones sociales</strong> y Salto el <strong>movimiento y control corporal</strong>. También aparece <strong>Chispa</strong> en los juegos más creativos de cada grupo. Cada animal representa un matiz diferente del trabajo en equipo y la expresión colectiva.</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento</h4></div>
+          <div class="juego">
+            <h5>🐴 CABALLOS — Juego de agrupaciones</h5>
+            <p>Juego de agrupaciones que se iba uniendo la gente.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal</h4></div>
+          <div class="juego">
+            <h5>🐷 CERDOS — Pelotas</h5>
+            <p>El primero pasaba la pelota y luego pasaba al último.</p>
+          </div>
+          <div class="juego">
+            <h5>🐟 PECES — Tiburones y Peces</h5>
+            <p>Tiburones y peces (donde quiera, entre cerdos y peces).</p>
+          </div>
+          <div class="juego">
+            <h5>🐱 GATOS — Juego Colas</h5>
+            <p>Juego colas (después de los peces o cerdos).</p>
+          </div>
+          <div class="juego">
+            <h5>🐘 ELEFANTES</h5>
+            <p>Parte principal final después.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma</h4></div>
+          <div class="juego">
+            <h5>🐍 SERPIENTES — Cola de la Serpiente</h5>
+            <p>Agrupación por colores + circuito (2 palos, 2 bancos y un zigzag) + canción: la cabeza de la serpiente coge gente y parte de la cola con la canción. <strong>CANCIÓN COLA SERPIENTE IMPORTANTE</strong> (vuelta a la calma).</p>
+          </div>
+          <div class="juego">
+            <h5>🦆 ORNITORRINCOS — Juego de los Nudos</h5>
+            <p>Juego de los nudos humanos. Vuelta a la calma, después del grupo de la cola de las serpientes.</p>
+          </div>
+          <div class="juego">
+            <h5>🐶 PERROS — Director de Orquesta</h5>
+            <p>Director de orquesta. Vuelta a la calma.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>A mi grupo le tocó la de las serpientes. Creo que lo hicimos bien y conseguimos trabajar los propósitos que nos habíamos puesto. Destaco el grupo de los perros con su actividad de director de orquesta: fue muy divertido e hizo congeniar y pasar un buen rato con toda la clase.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>En las exposiciones de los diferentes animales se veía claramente cómo cada grupo había entendido la cohesión de una forma distinta. Nuestro grupo trabajó bien los objetivos que nos propusimos y conseguimos coordinarnos correctamente. Me llamó especialmente la atención la actividad del grupo de los perros, que fue muy dinámica y consiguió que toda la clase participara y se divirtiera.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S3 ══ -->
+    <div class="ses-content" id="ses-3">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 3 · Gestos y Mímica</div>
+        <h3>El Espejo Mágico — Gestos y Mímica</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Desarrollar la comunicación no verbal, la expresión gestual y la coordinación con el otro a través de juegos de mímica y representación corporal. (Decreto 100/2022: Comunicación y representación de la realidad)</div>
+        <div class="ses-personaje">
+          <div class="ico">💧</div>
+          <p><strong>Guardián: Voix</strong> — El mensajero trabaja los contenidos de <strong>comunicación y lenguaje no verbal</strong>. También acompaña <strong>Lúa</strong> (expresión emocional en las representaciones) y <strong>Chispa</strong> (creatividad en el sketch colectivo). Esta sesión explora cómo el cuerpo narra sin palabras.</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento<span>Mímica en movimiento</span></h4></div>
+          <div class="juego">
+            <h5>Juego del Pozo</h5>
+            <p>Mímica en el sitio. El profe iba hablando y hacíamos lo que hacía. Gesto cerrado cuando nos caíamos y gesto abierto cuando salíamos, etc. Después, hemos caminado con trayectorias diferentes: rectas, curvas y luego quebradas. Hemos empezado a interactuar para hacer una representación en movimiento. Nos cruzamos por parejas y seguimos actuando con lo que nos dice Dani. Nos cuenta una historia y nosotros la teníamos que actuar. Al acabar, nos hemos separado por parejas.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal<span>Presentación · Espejos · Museo · Sketch</span></h4></div>
+          <div class="juego">
+            <h5>1.er juego — Presentación de Parejas con Mímica</h5>
+            <p>Ronda de presentaciones con mímica y gestos. Durante las presentaciones se cuenta un cuento que tiene aspectos motrices, con lateralidad, etc. Acabado el juego, seguimos con las parejas. Y empieza el segundo juego.</p>
+          </div>
+          <div class="juego">
+            <h5>2.º juego — Los Espejos</h5>
+            <p>Por turnos hay que representar las parejas una canción que se pone de fondo. Una espera y otra ve lo que hace. Las canciones hay que intentar que se sepan las letras. Las canciones que sean lentas y rápidas. Genero grupos de parejas y formo el museo de Mímica.</p>
+          </div>
+          <div class="juego">
+            <h5>3.er juego — Museo de Mímica</h5>
+            <p>Juego de representación que había que representar algo durante 15 segundos y luego volver hacia atrás. El juego de la moneda era para marcar los tiempos.</p>
+          </div>
+          <div class="juego">
+            <h5>4.º juego — El Sketch</h5>
+            <p>Un sketch más completo de 1 minuto. Con el mismo grupo hemos hecho un teatro más complejo.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma</h4></div>
+          <div class="juego">
+            <h5>Teléfono Loco con Mímica</h5>
+            <p>Juego del teléfono loco con mímica. Nos ponemos sentados, tranquilos.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>La actividad de las mímicas fue una actividad que consiguió fomentar la expresión corporal muchísimo. Me quedo también con la vuelta a la calma. Seguramente sea una actividad que la use en un futuro.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>Esta actividad me pareció muy útil para trabajar la expresión corporal sin necesidad de palabras. Consiguió que saliéramos un poco de la vergüenza y nos expresáramos de forma más libre. Destaco especialmente la vuelta a la calma, porque ayudó a organizar al grupo y preparar el ambiente para las siguientes actividades. Es una dinámica que podría utilizar en un futuro.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S4 ══ -->
+    <div class="ses-content" id="ses-4">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 4 · Danzas</div>
+        <h3>El Gran Baile del Bosque — Danzas</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Desarrollar el sentido del ritmo, la coordinación y la expresión corporal colectiva a través de danzas en gran grupo. (Decreto 100/2022: Comunicación y representación / Crecimiento en armonía)</div>
+        <div class="ses-personaje">
+          <div class="ico">⚡</div>
+          <p><strong>Guardián: Salto</strong> — Representa el <strong>movimiento y control corporal</strong>. También acompaña <strong>Lúa</strong> (expresión emocional a través de la danza) y el método de <strong>Dalcroze</strong>: el cuerpo como instrumento rítmico que habita y transforma el espacio.</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento<span>Metodología sumativa — repetir, repetir y repetir sin que sepa mal</span></h4></div>
+          <div class="juego">
+            <h5>Danza del Pollo</h5>
+            <p>Metodología sumativa: repetir, repetir y repetir sin que sepa mal. La actitud del docente es clave: su energía y entusiasmo marcan la motivación de todo el grupo.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal<span>Danzas en gran grupo</span></h4></div>
+          <div class="juego">
+            <h5>Danza de la Fruta — Distribución en gran grupo conga</h5>
+            <p><em>Fly catafly catafly fly fly (chumbi chumbi)</em> — CONGA. Gran grupo, distribución separada.</p>
+          </div>
+          <div class="juego">
+            <h5>Danza Parabara — Gran grupo separado</h5>
+            <p><em>Parabara perebere piripi poropo purupu.</em></p>
+          </div>
+          <div class="juego">
+            <h5>Minué — "En un salón francés se baila el minué"</h5>
+            <p>Gran grupo. Posibles problemas: dificultades izquierda y derecha, alante y atrás y ritmo.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma<span>Misma distribución gran grupo — de mayor a menor intensidad</span></h4></div>
+          <div class="juego">
+            <h5>Juego Casita</h5>
+            <p>Velocidad desde pequeño y va creciendo, de mayor a menor intensidad.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>Saberse danzas creo que es un atributo que debe tener cualquier profesor. Las danzas sirven para expresar corporalmente y musicalmente. Yo, personalmente, tengo mucha experiencia con muchas danzas.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>Considero que saber trabajar las danzas es algo fundamental para cualquier docente, ya que permiten la expresión corporal y musical de una forma muy completa. En mi caso, aunque tengo cierta experiencia previa, noté que a veces el ritmo de la clase era exigente. Aun así, me parece una actividad muy completa y útil para infantil.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S5 ══ -->
+    <div class="ses-content" id="ses-5">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 5 · Improvisación + Final Alternativo</div>
+        <h3>El Teatro Sin Guion — Improvisación y Cuento Alternativo (Girito)</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Fomentar la creatividad, la improvisación y la expresión dramática colectiva partiendo de cuentos clásicos con final alternativo. (Decreto 100/2022: Comunicación y representación / Crecimiento en armonía)</div>
+        <div class="ses-personaje">
+          <div class="ico">🎨</div>
+          <p><strong>Guardián: Chispa</strong> — La creadora trabaja los contenidos de <strong>creatividad y expresión artística</strong>. También aparece <strong>Nudo</strong> (relaciones sociales en los grupos cooperativos) y <strong>Lúa</strong> (expresión emocional en la confesión final).</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento<span>De parejas a grupos de 10</span></h4></div>
+          <div class="juego">
+            <h5>El Camino Creciente</h5>
+            <p>Hemos ido andando para calentar. Empezando en parejas progresando hasta en grupos de 10. La secuencia ha sido 2, 4, 6 y 10. Hay que intentar que los grupos sean diferentes personas. Con esto conseguimos conocer y actuar con más gente.</p>
+          </div>
+          <div class="juego">
+            <h5>Pelota con Historia</h5>
+            <p>Con los últimos grupos de 10 nos ibais pasando una pelota y creábamos una historia poco a poco. Yo digo una información y la persona de al lado se inventa otra cosa. La historia va cambiando. Luego hemos jugado a representar lo que decían. Con esto mejoramos nuestra expresión corporal.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal<span>Improvisación dramática</span></h4></div>
+          <div class="juego">
+            <h5>Situación con Tic</h5>
+            <p>Se rompen los grupos a grupos de 8 y hay que inventarse una situación en la que haya 2 personas que llevan la situación y actúan y dirigían. Se podía poner un tic y había que contagiar el tic.</p>
+          </div>
+          <div class="juego">
+            <h5>Los Gnomos</h5>
+            <p>Dos personas formaban un gnomo y se necesitaban dos gnomos (4 personas). El juego consistía en una confrontación entre los gnomos (presentador - entrevistado, comprador - vendedor, etc.).</p>
+          </div>
+          <div class="juego">
+            <h5>Teatro con Giro Alternativo (el "girito")</h5>
+            <p>Pasado un rato hemos creado un teatro y hemos actuado con un giro improvisado de por medio. Eran los mismos grupos y había poco tiempo para procesar la información.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma</h4></div>
+          <div class="juego">
+            <h5>La Confesión</h5>
+            <p>Con tono calmado, nos confesamos algo a nuestro compañero.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>La actividad de improvisación estuvo muy entretenida y divertida. El hecho de juntarnos en grupos y crear (improvisadamente) una historia hizo que nos lo tomásemos muy en serio y quisiéramos que saliera a la perfección.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>Esta sesión fue muy entretenida porque nos permitió crear historias de forma improvisada en grupo. Me gustó mucho cómo conseguimos implicarnos y tomarnos la actividad en serio para que el resultado saliera bien. Al hacer el mini sketch con los gnomos pudimos trabajar la expresión corporal de una manera más creativa y divertida.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S6 ══ -->
+    <div class="ses-content" id="ses-6">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 6 · Juegos de Expresión</div>
+        <h3>El Diccionario de las Emociones — Juegos de Expresión</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Identificar, expresar y comunicar emociones a través del gesto, el movimiento y la representación dramática grupal. (Decreto 100/2022: Crecimiento en armonía / Comunicación y representación)</div>
+        <div class="ses-personaje">
+          <div class="ico">🌸</div>
+          <p><strong>Guardián: Lúa</strong> — La que siente todo trabaja los contenidos de <strong>desarrollo emocional</strong>. También aparece <strong>Voix</strong> (comunicación no verbal al hablar por números) y <strong>Chispa</strong> (creatividad en la representación de animales y personajes).</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento</h4></div>
+          <div class="juego">
+            <h5>Baile de la Fruta — Danza</h5>
+            <p>Explicarla pero no tanto porque ya se ha explicado en la siguiente sesión.</p>
+          </div>
+          <div class="juego">
+            <h5>Me voy por parejas a hablar por números</h5>
+            <p>Por parejas, comunicación únicamente usando números. El desafío está en transmitir emociones solo con la voz, el tono y el cuerpo.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal</h4></div>
+          <div class="juego">
+            <h5>Tríos — Familias de Animales: Juego Suricatas</h5>
+            <p>Tríos: familias de animales. Juego Suricatas, representación.</p>
+          </div>
+          <div class="juego">
+            <h5>Lugar, Acción y Personaje</h5>
+            <p>Mismos grupos de familia de animales: lugar, acción y personajes, se elige una y se lleva a "examen". Dumbo cantando en el circo, por turnos solo habla quien levanta la mano.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma</h4></div>
+          <div class="juego">
+            <h5>Ducha a mi compañero y masaje de los animales</h5>
+            <p>Ducho a mi compañero y masaje de los animales.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>Con esta actividad conseguimos perder totalmente la vergüenza y sacar nuestro lado más artístico. El hecho de hacer el mini sketch con los gnomos le da un punto de expresión corporal muy especial.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>En esta sesión me di cuenta de que la expresión corporal ayuda mucho a perder la vergüenza y a comunicarme mejor sin palabras. Al principio me costó, pero luego me fui soltando con las dinámicas en grupo. Me gustó especialmente la improvisación porque nos permitió ser más creativos. La vuelta a la calma me pareció muy adecuada para relajar el cuerpo al final.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S7 ══ -->
+    <div class="ses-content" id="ses-7">
+      <div class="ses-header">
+        <div class="ses-num">Sesión 7 · Ocupación del Espacio</div>
+        <h3>El Mapa del Bosque — Ocupación del Espacio</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Explorar la ocupación del espacio, la percepción del entorno y el movimiento en diferentes ejes a través del cuerpo y el juego sensorial. (Decreto 100/2022: Crecimiento en armonía — rítmica de Dalcroze)</div>
+        <div class="ses-personaje">
+          <div class="ico">🍃</div>
+          <p><strong>Guardián: Raíz</strong> — La exploradora trabaja los contenidos de <strong>exploración del entorno</strong>. También acompaña <strong>Mirlo</strong> (conocimiento del propio cuerpo en el espacio) y la rítmica de <strong>Dalcroze</strong> como marco metodológico central: el espacio que hay es el que tienen, y han de habitarlo con todo el cuerpo.</p>
+        </div>
+      </div>
+      <div class="ses-body">
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-cal">🔥</div><h4>Calentamiento<span>Corto</span></h4></div>
+          <div class="juego">
+            <h5>Saludos en Diferentes Ejes</h5>
+            <p>Hemos comenzado andando y hemos jugado con saludos en diferentes ejes (vertical, horizontal y diagonal). Hay que fijarse en la forma de saludo (movimiento, expresión, etc.). Andar individualmente creando espacios pequeños y grandes. Luego lo mismo pero con pareja, hay que tener en cuenta el nuevo espacio con nuestra pareja. Calentamiento corto.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Parte Principal</h4></div>
+          <div class="juego">
+            <h5>Juego de los Coches</h5>
+            <p>Hemos empezado con el juego de los coches. Cogemos un aro de forma individual, se puede añadir juegos quitando los aros y así creando otros vehículos. Jugamos con juegos de percepción de cuerpo. Coches cortos y largos. De volante a cuerpo. Mientras estamos circulando, el profe marcaba unas pautas con sus brazos de límites del espacio y de altura. La mejor forma sería con algún objeto visual.</p>
+          </div>
+          <div class="juego">
+            <h5>Fuego, Tierra, Mar y Aire</h5>
+            <p>A cada uno de los elementos le atribuimos una dirección. Derecha, izquierda, atrás y delante.</p>
+          </div>
+        </div>
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-calm">🌙</div><h4>Vuelta a la Calma</h4></div>
+          <div class="juego">
+            <h5>El Espacio que Habitamos</h5>
+            <p>Se forman grupos medianos 4-6 y creamos espacios. Pequeño, grande y velocidad. La tarea consiste en crear/interpretar los distintos tipos de espacio.</p>
+            <p class="nota">Puntos importantes: hay que recalcar que el espacio que hay es el que tienen. Si tienen una amplitud que la aprovechen, si la tienen de estrechez que la usen. Esto es la rítmica de Dalcroze.</p>
+          </div>
+        </div>
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box"><h5>Héctor</h5><p>Esta sesión trabajaba mucho la forma de expresarnos en distintos espacios. Muy buenas actividades para hacer en un aula de infantil. Sencillas, con pautas fáciles de entender y con un trasfondo importante.</p></div>
+            <div class="obs-box"><h5>Judit</h5><p>En esta sesión he tomado más conciencia del espacio y de cómo me muevo en él. Algunas actividades me costaron al principio, como los cambios de dirección o los juegos con aros, pero me ayudaron a mejorar mi coordinación. Creo que es una sesión muy útil para educación infantil porque trabaja el control corporal de forma sencilla y progresiva.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ S8 MASH UP ══ -->
+    <div class="ses-content" id="ses-8">
+
+      <!-- YouTube iframe oculto para audio -->
+      <iframe id="yt-mashup" width="1" height="1"
+        src="about:blank"
+        style="position:absolute;opacity:0;pointer-events:none"
+        allow="autoplay"
+        frameborder="0">
+      </iframe>
+
+      <!-- Player visible -->
+      <div id="mashup-player" style="background:linear-gradient(135deg,#3a2500,#6b4200);border-radius:16px 16px 0 0;padding:16px 24px;display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--dorado)">
+        <div style="flex-shrink:0">
+          <button id="play-btn" onclick="toggleMashupAudio()" style="width:48px;height:48px;border-radius:50%;background:var(--dorado);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all 0.2s" title="Reproducir / Pausar">▶️</button>
+        </div>
+        <div style="flex:1;min-width:0">
+          <p style="color:var(--dorado-claro);font-weight:800;font-size:14px;margin-bottom:2px">🎵 De ellos aprendí — Ponfo</p>
+          <p style="color:#c8a060;font-size:11px">Canción del Mash Up · Pulsa play para escuchar mientras lees</p>
+        </div>
+        <a href="https://youtu.be/Eq0J2W7vkDQ" target="_blank" style="color:var(--dorado-claro);font-size:11px;font-weight:700;text-decoration:none;border:1px solid rgba(233,200,90,0.4);padding:5px 12px;border-radius:20px;white-space:nowrap;flex-shrink:0">Ver en YouTube ↗</a>
+      </div>
+
+      <div class="ses-header" style="background:linear-gradient(135deg,#5a3a00,#8a5c00,#c9a227);border-radius:0">
+        <div class="ses-num">Sesión Especial · Proyecto Audiovisual</div>
+        <h3>Mash Up — De ellos aprendí</h3>
+        <div class="ses-obj"><strong>Objetivo:</strong> Integrar la expresión corporal, la coordinación grupal y la creatividad en una producción audiovisual colectiva mediante la técnica del mashup. (Decreto 100/2022: Comunicación y representación / Crecimiento en armonía)</div>
+        <div class="ses-personaje" style="background:rgba(255,255,255,0.1);border-color:rgba(233,200,90,0.4)">
+          <div class="ico">🎬</div>
+          <p><strong>Todos los Guardianes reunidos</strong> — Esta sesión especial convoca a los 7 guardianes del cofre: <strong>Mirlo</strong> (conciencia corporal), <strong>Lúa</strong> (expresión emocional), <strong>Voix</strong> (comunicación), <strong>Salto</strong> (movimiento), <strong>Nudo</strong> (cohesión grupal), <strong>Chispa</strong> (creatividad artística) y <strong>Raíz</strong> (exploración del entorno). Es la culminación de todo el camino recorrido.</p>
+        </div>
+      </div>
+      <div class="ses-body">
+
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon" style="background:#fff3cd;font-size:18px">🎵</div><h4>¿Qué es un Mash Up?<span>Concepto y explicación</span></h4></div>
+          <div class="juego" style="border-left-color:var(--dorado)">
+            <h5>Definición</h5>
+            <p>Un mashup es una creación audiovisual que consiste en la combinación de distintos fragmentos para formar una obra única y coherente.</p>
+            <p>En este caso, se ha realizado un mashup a partir de la canción <strong>De ellos aprendí</strong> de Ponfo, mediante una propuesta colaborativa en el gimnasio. La canción fue dividida en diferentes frases, y cada grupo de alumnos se encargó de interpretar una parte concreta.</p>
+            <p>Durante la grabación, la cámara se desplazaba de un grupo a otro, enlazando cada intervención de manera continua. De este modo, aunque participan varios grupos y se producen cambios de escena, el resultado final mantiene la continuidad de la canción.</p>
+            <p>En conclusión, el mashup consiste en la integración de las distintas interpretaciones de los grupos en un único vídeo, logrando una producción conjunta, organizada y creativa.</p>
+          </div>
+        </div>
+
+        <div class="fase">
+          <div class="fase-lbl"><div class="fase-icon ic-pri">🌿</div><h4>Desarrollo de la Actividad<span>Proceso de creación colaborativa</span></h4></div>
+          <div class="juego">
+            <h5>División de la canción por grupos</h5>
+            <p>La canción <em>De ellos aprendí</em> de Ponfo se divide en tantas frases o fragmentos como grupos hay en la clase. Cada grupo recibe su parte y trabaja de forma autónoma la puesta en escena: la coreografía, la posición en el espacio, la expresión corporal y la sincronización con la letra.</p>
+          </div>
+          <div class="juego">
+            <h5>Grabación con cámara en movimiento</h5>
+            <p>Durante la grabación, la cámara se desplaza de un grupo a otro enlazando cada intervención de manera continua. Este desplazamiento debe estar coordinado con los cambios de frase de la canción, de forma que el corte entre grupos sea fluido y natural. Aunque participan varios grupos y se producen cambios de escena, el resultado final mantiene la continuidad de la canción.</p>
+          </div>
+          <div class="juego">
+            <h5>Montaje final: el Mash Up (a cargo del profesor/a)</h5>
+            <p>Una vez realizadas todas las grabaciones, es el profesor o profesora quien se encarga de realizar el montaje final. Integra las distintas interpretaciones de los grupos en un único vídeo, ordenando los fragmentos según la secuencia de la canción y asegurando la continuidad entre escenas. Cada grupo aporta su sello particular, y el conjunto da lugar a una obra audiovisual común, organizada y creativa.</p>
+          </div>
+        </div>
+
+
+
+        <div class="fase" style="background:var(--crema)">
+          <div class="fase-lbl"><div class="fase-icon ic-obs">✏️</div><h4>Observaciones Docentes</h4></div>
+          <div class="obs-grid">
+            <div class="obs-box">
+              <h5>Héctor y Judit</h5>
+              <p>La realización del mashup a partir de la canción <strong>De ellos aprendí</strong> de Ponfo nos pareció una actividad muy interesante y dinámica. Consideramos que fue una experiencia positiva, ya que fomentó el trabajo en equipo, la coordinación entre los distintos grupos y la creatividad en la puesta en escena. Además, el hecho de que la cámara se desplazara de un grupo a otro hizo que el resultado final fuera más original y entretenido.</p>
+              <p style="margin-top:8px">En general, la actividad nos resultó motivadora y nos permitió participar de forma activa en la elaboración de un proyecto común.</p>
+            </div>
+            <div class="obs-box" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(201,162,39,0.08),rgba(45,90,39,0.06));border-style:dashed">
+              <div style="font-size:40px;margin-bottom:12px">🎬</div>
+              <p style="font-size:13px;color:var(--texto-medio);font-style:italic;line-height:1.6">"Una sola canción, muchas voces, un único movimiento."</p>
+              <div style="margin-top:12px;background:var(--verde-oscuro);color:var(--dorado-claro);padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700">Proyecto Mash Up · De ellos aprendí — Ponfo</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ REFLEXIÓN FINAL ══ -->
+<div class="section" id="sec-reflexion">
+  <div class="page-content">
+    <div class="reflex-hero">
+      <div class="cofre-anim">🗝️</div>
+      <h2>El Cofre está abierto</h2>
+      <p>Después de 7 sesiones de movimiento, emoción, creatividad y conexión, el grupo ha conseguido lo más importante: conocerse, expresarse y crecer juntos. El cofre no guardaba oro ni joyas. Guardaba todo esto.</p>
+      <button class="btn-p" onclick="show('sesiones')">Volver a las Sesiones</button>
+    </div>
+    <div class="sec-label">Reflexión Final</div>
+    <h2 class="page-title">¿Qué hemos<br>aprendido juntos?</h2>
+    <div class="divider"></div>
+    <div class="apren-grid">
+      <div class="apren-card"><span class="num">🌱</span><h4>Expresar emociones</h4><p>El cuerpo también habla: con un gesto, una postura o una danza podemos decir cómo nos sentimos sin usar palabras.</p></div>
+      <div class="apren-card"><span class="num">💪</span><h4>Conocer nuestro cuerpo</h4><p>Saltamos, giramos, nos congelamos y exploramos cada rincón del espacio. El cuerpo es nuestro primer instrumento.</p></div>
+      <div class="apren-card"><span class="num">🤝</span><h4>Relacionarnos con otros</h4><p>Hemos bailado juntos, actuado juntos, nos hemos abrazado y reído. La magia ocurre cuando el grupo se mueve como uno solo.</p></div>
+      <div class="apren-card"><span class="num">🎨</span><h4>Crear sin miedo</h4><p>Hemos improvisado, inventado historias y actuado sin guion. No hay movimientos incorrectos: toda expresión tiene valor.</p></div>
+    </div>
+    <div class="preg-list">
+      <h3>Preguntas para reflexionar</h3>
+      <div class="preg-item"><div class="preg-num">1</div><p>¿Cuál ha sido el momento de mayor alegría en este camino? ¿Qué estabas haciendo en ese momento?</p></div>
+      <div class="preg-item"><div class="preg-num">2</div><p>¿Hay alguna actividad que te ha costado más? ¿Qué has hecho para superarla?</p></div>
+      <div class="preg-item"><div class="preg-num">3</div><p>¿Qué has descubierto de ti mismo/a que no sabías antes de empezar?</p></div>
+      <div class="preg-item"><div class="preg-num">4</div><p>¿Cómo te sentías al principio de la primera sesión? ¿Y cómo te sientes ahora?</p></div>
+      <div class="preg-item"><div class="preg-num">5</div><p>Si pudieras añadir algo al cofre para el próximo grupo que pase por este bosque, ¿qué sería?</p></div>
+    </div>
+    <div style="background:var(--verde-oscuro);border-radius:24px;padding:44px;text-align:center;margin:36px 0">
+      <div style="font-size:44px;margin-bottom:18px">🌳</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:26px;color:white;margin-bottom:14px">El bosque sigue vivo</h3>
+      <p style="color:#c8e8c0;font-size:15px;line-height:1.7;max-width:540px;margin:0 auto 22px">El cofre está abierto. Pero el bosque no tiene fin. Cada vez que os movéis juntos, cada vez que expresáis algo sin palabras, cada vez que un niño o niña descubre que puede con su cuerpo más de lo que creía... el tesoro crece.</p>
+      <div style="display:inline-flex;gap:8px;align-items:center;background:rgba(233,200,90,0.15);border:1px solid var(--dorado);border-radius:30px;padding:9px 22px">
+        <span style="color:var(--dorado-claro);font-weight:700;font-size:12px">Decreto 100/2022 · Educación Infantil 3–6 años · UCV 2025–2026</span>
+      </div>
+    </div>
+    <div class="autores-box">
+      <h3>Trabajo realizado por</h3>
+      <p><strong>Judit Sales Pérez</strong> y <strong>Héctor Altur López</strong><br>
+      1.º Educación Infantil A · Promoción 2025–2026 · Universidad Católica de Valencia (UCV)</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>El Cofre del Movimiento</strong> · Blog educativo de Expresión Corporal · Educación Infantil (3–6 años) · Decreto 100/2022 · UCV 2025–2026
+</footer>
+
+<script>
+  function show(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sec-'+id).classList.add('active');
+    const map={inicio:0,historia:1,teoria:2,sesiones:3,reflexion:4};
+    document.querySelectorAll('nav button').forEach((b,i)=>b.classList.toggle('active',i===map[id]));
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  let mashupPlaying = false;
+
+  function showSes(n){
+    document.querySelectorAll('.ses-content').forEach(s=>s.classList.remove('active'));
+    document.getElementById('ses-'+n).classList.add('active');
+    document.querySelectorAll('.ses-btn').forEach((b,i)=>b.classList.toggle('active',i===n-1));
+    document.getElementById('ses-'+n).scrollIntoView({behavior:'smooth',block:'start'});
+    // Auto-play music when entering Mash Up session
+    if(n===8){ startMashupAudio(); }
+    else { stopMashupAudio(); }
+  }
+
+  function startMashupAudio(){
+    const iframe = document.getElementById('yt-mashup');
+    iframe.src = 'https://www.youtube.com/embed/Eq0J2W7vkDQ?autoplay=1&loop=1&playlist=Eq0J2W7vkDQ';
+    mashupPlaying = true;
+    updatePlayBtn();
+  }
+
+  function stopMashupAudio(){
+    const iframe = document.getElementById('yt-mashup');
+    if(iframe){ iframe.src = 'about:blank'; }
+    mashupPlaying = false;
+    updatePlayBtn();
+  }
+
+  function toggleMashupAudio(){
+    if(mashupPlaying){ stopMashupAudio(); }
+    else { startMashupAudio(); }
+  }
+
+  function updatePlayBtn(){
+    const btn = document.getElementById('play-btn');
+    if(btn){ btn.textContent = mashupPlaying ? '⏸️' : '▶️'; }
+  }
+</script>
+</body>
+</html>
